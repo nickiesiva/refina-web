@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Gentallela Alela! | </title>
+    <title>Refina-Web | </title>
 
     <!-- Bootstrap core CSS -->
 
@@ -21,32 +21,93 @@
     <link href="css/custom.css" rel="stylesheet">
     <link href="css/icheck/flat/green.css" rel="stylesheet">
 
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>        <!-- Google Maps API -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>    <!-- Google CDN for jQuery -->
+ <head>
+    <title>Google Map Template with Marker at User's Position</title>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>    <!-- Google Maps API -->
     <script>
-    var map;    // Google map object (global variable)
+    var map;    // Google map object
     
-    // Initialize and display a Google map when the web page is loaded
-    $(function() {  
+    // Initialize and display a google map
+    function Init()
+    {
+        // HTML5/W3C Geolocation
+        if ( navigator.geolocation )
+            navigator.geolocation.getCurrentPosition( UserLocation );
+        // Default to Washington, DC
+        else
+            ShowLocation( 38.8951, -77.0367, "Washington, DC" );
+    }
+    
+    // Callback function for asynchronous call to HTML5 geolocation
+    function UserLocation( position )
+    {
+        ShowLocation( position.coords.latitude, position.coords.longitude,"Lokasi Anda..!");
+    }
+    
+    // Display a map centered at the specified coordinate with a marker and InfoWindow.
+    function ShowLocation( lat, lng, title )
+    {
         // Create a Google coordinate object for where to center the map
-        var latlngDC = new google.maps.LatLng( 38.8951, -77.0367);  // Coordinates of Washington, DC (area centroid)
+        var latlng = new google.maps.LatLng( lat, lng );    
         
         // Map options for how to display the Google map
-        var mapOptions = { zoom: 12, center: latlngDC  };
+        var mapOptions = { zoom: 18, center: latlng  };
         
         // Show the Google map in the div with the attribute id 'map-canvas'.
-        map = new google.maps.Map( document.getElementById('map-canvas'), mapOptions );
-                
-        // Place a standard Google Marker at the same location as the map center (Washington, DC)
+        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        
+        // Place a Google Marker at the same location as the map center 
         // When you hover over the marker, it will display the title
-        var marker = new google.maps.Marker( { 
-            position: latlngDC,     
-            map: map,      
-            title: 'Washington, DC',
-            icon : 'ma.png',                   // image to display as the marker
-            animation: google.maps.Animation.BOUNCE // set marker to bounce 
+        var marker = new google.maps.Marker(
+        { 
+            position: latlng,     
+            map: map,  
+            icon : 'images/map1.png',    
+            title: title
         });
-    });
+        var marker2 = new google.maps.Marker(
+        { 
+            position: new google.maps.LatLng( -7.8460552,110.40236 ),  
+            map: map,  
+            icon : 'images/map3.png',    
+            title: 'petugas parkir tidak pakai sragam'
+        });
+        var marker3 = new google.maps.Marker(
+        { 
+            position: new google.maps.LatLng( -7.8462532,110.402179),  
+            map: map,  
+            icon : 'images/map3.png',    
+            title: 'perkir Rp.2000'
+        });
+
+        var marker4 = new google.maps.Marker(
+        { 
+            position: new google.maps.LatLng( -7.8464937,110.4023788 ),  
+            map: map,  
+            icon : 'images/map3.png',    
+            title: 'parkir tidak memekai karcis'
+        });
+        var marker6 = new google.maps.Marker(
+        { 
+            position: new google.maps.LatLng( -7.8467354,110.4023332 ),  
+            map: map,  
+            icon : 'images/map3.png',    
+            title: 'membuat parkir di trotoar mengganggu pengguna jalan lain'
+        });
+        
+        // Create an InfoWindow for the marker
+        var contentString = "<b>" + title + "</b>"; // HTML text to display in the InfoWindow
+        var infowindow = new google.maps.InfoWindow( { content: contentString } );
+        
+        // Set event to display the InfoWindow anchored to the marker when the marker is clicked.
+        google.maps.event.addListener( marker, 'click', function() { infowindow.open( map, marker ); });
+        google.maps.event.addListener( marker2, 'click', function() { infowindow.open( map, marker2 ); });
+        google.maps.event.addListener( marker3, 'click', function() { infowindow.open( map, marker3 ); });
+        google.maps.event.addListener( marker4, 'click', function() { infowindow.open( map, marker4 ); });
+        google.maps.event.addListener( marker6, 'click', function() { infowindow.open( map, marker6 ); });
+    }
+    
+    google.maps.event.addDomListener( window, 'load', Init );
 
     </script>
 
@@ -77,7 +138,7 @@
                 <div class="left_col scroll-view">
 
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentellela Alela!</span></a>
+                        <a href="index.html" class="site_title"><img style=" margin-left: 20px;" width="160px" src="images/refina-logo.png"></a>
                     </div>
                     <div class="clearfix"></div>
 
@@ -89,7 +150,7 @@
                         </div>
                         <div class="profile_info">
                             <span>Welcome,</span>
-                            <h2>Anthony Fernando</h2>
+                            <h2>Ahmad Rifki</h2>
                         </div>
                     </div>
                     <!-- /menu prile quick info -->
@@ -102,112 +163,18 @@
                         <div class="menu_section">
                             <h3>General</h3>
                             <ul class="nav side-menu">
-                                <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu" style="display: none">
-                                        <li><a href="index.html">Dashboard</a>
-                                        </li>
-                                        <li><a href="index2.html">Dashboard2</a>
-                                        </li>
-                                        <li><a href="index3.html">Dashboard3</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu" style="display: none">
-                                        <li><a href="form.html">General Form</a>
-                                        </li>
-                                        <li><a href="form_advanced.html">Advanced Components</a>
-                                        </li>
-                                        <li><a href="form_validation.html">Form Validation</a>
-                                        </li>
-                                        <li><a href="form_wizards.html">Form Wizard</a>
-                                        </li>
-                                        <li><a href="form_upload.html">Form Upload</a>
-                                        </li>
-                                        <li><a href="form_buttons.html">Form Buttons</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a><i class="fa fa-desktop"></i> UI Elements <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu" style="display: none">
-                                        <li><a href="general_elements.html">General Elements</a>
-                                        </li>
-                                        <li><a href="media_gallery.html">Media Gallery</a>
-                                        </li>
-                                        <li><a href="typography.html">Typography</a>
-                                        </li>
-                                        <li><a href="icons.html">Icons</a>
-                                        </li>
-                                        <li><a href="glyphicons.html">Glyphicons</a>
-                                        </li>
-                                        <li><a href="widgets.html">Widgets</a>
-                                        </li>
-                                        <li><a href="invoice.html">Invoice</a>
-                                        </li>
-                                        <li><a href="inbox.html">Inbox</a>
-                                        </li>
-                                        <li><a href="calender.html">Calender</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a><i class="fa fa-table"></i> Tables <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu" style="display: none">
-                                        <li><a href="tables.html">Tables</a>
-                                        </li>
-                                        <li><a href="tables_dynamic.html">Table Dynamic</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a><i class="fa fa-bar-chart-o"></i> Data Presentation <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu" style="display: none">
-                                        <li><a href="chartjs.html">Chart JS</a>
-                                        </li>
-                                        <li><a href="chartjs2.html">Chart JS2</a>
-                                        </li>
-                                        <li><a href="morisjs.html">Moris JS</a>
-                                        </li>
-                                        <li><a href="echarts.html">ECharts </a>
-                                        </li>
-                                        <li><a href="other_charts.html">Other Charts </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="menu_section">
-                            <h3>Live On</h3>
-                            <ul class="nav side-menu">
-                                <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu" style="display: none">
-                                        <li><a href="e_commerce.html">E-commerce</a>
-                                        </li>
-                                        <li><a href="projects.html">Projects</a>
-                                        </li>
-                                        <li><a href="project_detail.html">Project Detail</a>
-                                        </li>
-                                        <li><a href="contacts.html">Contacts</a>
-                                        </li>
-                                        <li><a href="profile.html">Profile</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a><i class="fa fa-windows"></i> Extras <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu" style="display: none">
-                                        <li><a href="page_404.html">404 Error</a>
-                                        </li>
-                                        <li><a href="page_500.html">500 Error</a>
-                                        </li>
-                                        <li><a href="plain_page.html">Plain Page</a>
-                                        </li>
-                                        <li><a href="login.html">Login Page</a>
-                                        </li>
-                                        <li><a href="pricing_tables.html">Pricing Tables</a>
-                                        </li>
+                                <li><a href="map.html"><i class="fa fa-map-marker"></i>Location</a> </li>
+                                <li><a href="profile.html"><i class="fa fa-user"></i>Profil</a> </li>
 
+                                <li><a><i class="fa fa-edit"></i> Data Laporan <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu" style="display: none">
+                                        <li><a href="index.html">Data Bulanan</a>
+                                        </li>
+                                        <li><a href="form_advanced.html">Data Mingguan</a>
+                                        </li>
                                     </ul>
                                 </li>
-                                <li><a><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a>
-                                </li>
+
                             </ul>
                         </div>
 
@@ -245,7 +212,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li class="">
                                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="images/img.jpg" alt="">John Doe
+                                    <img src="images/img.jpg" alt="">
                                     <span class=" fa fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
@@ -270,72 +237,6 @@
                                     <i class="fa fa-envelope-o"></i>
                                     <span class="badge bg-green">6</span>
                                 </a>
-                                <ul id="menu1" class="dropdown-menu list-unstyled msg_list animated fadeInDown" role="menu">
-                                    <li>
-                                        <a>
-                                            <span class="image">
-                                        <img src="images/img.jpg" alt="Profile Image" />
-                                    </span>
-                                            <span>
-                                        <span>John Smith</span>
-                                            <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                        Film festivals used to be do-or-die moments for movie makers. They were where... 
-                                    </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a>
-                                            <span class="image">
-                                        <img src="images/img.jpg" alt="Profile Image" />
-                                    </span>
-                                            <span>
-                                        <span>John Smith</span>
-                                            <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                        Film festivals used to be do-or-die moments for movie makers. They were where... 
-                                    </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a>
-                                            <span class="image">
-                                        <img src="images/img.jpg" alt="Profile Image" />
-                                    </span>
-                                            <span>
-                                        <span>John Smith</span>
-                                            <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                        Film festivals used to be do-or-die moments for movie makers. They were where... 
-                                    </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a>
-                                            <span class="image">
-                                        <img src="images/img.jpg" alt="Profile Image" />
-                                    </span>
-                                            <span>
-                                        <span>John Smith</span>
-                                            <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                        Film festivals used to be do-or-die moments for movie makers. They were where... 
-                                    </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <div class="text-center">
-                                            <a>
-                                                <strong>See All Alerts</strong>
-                                                <i class="fa fa-angle-right"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-                                </ul>
                             </li>
 
                         </ul>
@@ -346,18 +247,18 @@
             <!-- /top navigation -->
 
             <!-- page content -->
-            <div class="right_col" role="main">
+            <div style="    min-height: 720px;" class="right_col" role="main">
 
                 <div class="">
                     <div class="page-title">
                         <div class="title_left">
-                            <h3>Form Upload </h3>
+                            <h3>Location </h3>
                         </div>
 
                         <div class="title_right">
                             <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search for...">
+                                    <input type="text" class="form-control" placeholder="Search Location">
                                     <span class="input-group-btn">
                             <button class="btn btn-default" type="button">Go!</button>
                         </span>
@@ -375,8 +276,8 @@
                 <!-- footer content -->
                 <footer>
                     <div class="">
-                        <p class="pull-right">Gentelella Alela! a Bootstrap 3 template by <a>Kimlabs</a>. |
-                            <span class="lead"> <i class="fa fa-paw"></i> Gentelella Alela!</span>
+                        <p class="pull-right">Tim Saitama <a>Yogyakarta</a>. |
+                            <span class="lead"> <i class="fa fa-paw"></i> Refina-Web!</span>
                         </p>
                     </div>
                     <div class="clearfix"></div>
@@ -413,3 +314,12 @@
 </body>
 
 </html>
+
+    <style>
+    /* style settings for Google map */
+    #map-canvas
+    {
+        width : 80em;  /* map width */
+        height: 40em;  /* map height */
+    }
+    </style>
